@@ -8,8 +8,11 @@ using System.Text;
 namespace Laboratorio_8_OOP_201920
 {
     [Serializable]
-    public class Player: IAttackPoints
+    public class Player : IAttackPoints
     {
+        //Events
+        public event EventHandler<PlayerEventArgs> CardPlayed;
+
         //Constantes
         private const int LIFE_POINTS = 2;
         private const int START_ATTACK_POINTS = 0;
@@ -47,7 +50,7 @@ namespace Laboratorio_8_OOP_201920
                 this.lifePoints = value;
             }
         }
-       
+
         public Deck Deck
         {
             get
@@ -94,11 +97,35 @@ namespace Laboratorio_8_OOP_201920
         }
 
         //Metodos
+        public virtual void OnCardPlayed(Card card)
+        {
+            
+        }
+
+        public bool PlayerHasEffect()
+        {
+            foreach (var card in Hand.Cards)
+            {
+                foreach (var effect in Enum.GetValues(typeof(EnumEffect)))
+                {
+                    if (card.CardEffect.Equals(effect)==true)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
         public void DrawCard(int cardId = 0)
         {
             Card tempCard = CreateTempCard(cardId);
             hand.AddCard(tempCard);
             deck.DestroyCard(cardId);
+            if (PlayerHasEffect())
+            {
+                OnCardPlayed(tempCard);
+            }
         }
         public void PlayCard(int cardId, EnumType buffRow = EnumType.None)
         {
@@ -121,6 +148,11 @@ namespace Laboratorio_8_OOP_201920
                 }
             }
             hand.DestroyCard(cardId);
+
+            if (PlayerHasEffect())
+            {
+                OnCardPlayed(tempCard);
+            }
         }
 
         public void ChangeCard(int cardId)

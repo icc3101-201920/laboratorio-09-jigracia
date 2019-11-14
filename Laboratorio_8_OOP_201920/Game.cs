@@ -25,6 +25,7 @@ namespace Laboratorio_8_OOP_201920
         internal int turn;
         internal bool bothPlayersPlayed;
         private Dictionary<string, Object> actualData;
+        
 
         //Constructor
         public Game()
@@ -110,6 +111,7 @@ namespace Laboratorio_8_OOP_201920
             {
                 return false;
             }
+            
         }
         public int GetWinner()
         {
@@ -220,6 +222,7 @@ namespace Laboratorio_8_OOP_201920
                 else
                 {
                     Boolean cycle = true;
+                    activePlayer.CardPlayed += OnPlayedCard;
                     while (cycle)
                     {
                         ActivePlayer = Players[firstOrSecondUser];
@@ -293,6 +296,7 @@ namespace Laboratorio_8_OOP_201920
                                 break;
                         }
                     }
+                    activePlayer.CardPlayed -= OnPlayedCard;
                     //Cambiar al oponente si no ha jugado
                     if (!bothPlayersPlayed)
                     {
@@ -346,6 +350,12 @@ namespace Laboratorio_8_OOP_201920
                 Visualization.ShowProgramMessage($"Draw!");
             }
 
+        }
+
+        void OnPlayedCard(object source, PlayerEventArgs e)
+        {
+            int opponent = e.player.Id == 0 ? 1 : 0;
+            Effect.ApplyEffect(e.card,e.player,Players[opponent],BoardGame);
         }
         public void AddDecks()
         {
