@@ -27,6 +27,78 @@ namespace Laboratorio_8_OOP_201920
         public static void ApplyEffect(Card playedCard, Player activePlayer, Player opponent, Board board)
         {
             //Recomendación: Utilice switch(playedCard.CardEffect) para definir los distintos efectos.
+            switch (playedCard.CardEffect)
+            {
+                case EnumEffect.bitingFrost:
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[activePlayer.Id][EnumType.melee])
+                    {
+                        card.AttackPoints = 1;
+                    }
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[opponent.Id][EnumType.melee])
+                    {
+                        card.AttackPoints = 1;
+                    }
+                    break;
+                case EnumEffect.impenetrableFog:
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[activePlayer.Id][EnumType.range])
+                    {
+                        card.AttackPoints = 1;
+                    }
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[opponent.Id][EnumType.range])
+                    {
+                        card.AttackPoints = 1;
+                    }
+                    break;
+                case EnumEffect.torrentialRain:
+                    foreach(CombatCard card in activePlayer.Board.PlayerCards[activePlayer.Id][EnumType.longRange])
+                    {
+                        card.AttackPoints = 1;
+                    }
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[opponent.Id][EnumType.longRange])
+                    {
+                        card.AttackPoints = 1;
+                    }
+                    break;
+                case EnumEffect.clearWeather:
+                    board.WeatherCards.Clear();
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[activePlayer.Id][EnumType.melee])
+                    {
+                        card.AttackPoints = card.OriginalAttackPoints;
+                    }
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[opponent.Id][EnumType.melee])
+                    {
+                        card.AttackPoints = card.OriginalAttackPoints;
+                    }
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[activePlayer.Id][EnumType.range])
+                    {
+                        card.AttackPoints = card.OriginalAttackPoints;
+                    }
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[opponent.Id][EnumType.range])
+                    {
+                        card.AttackPoints = card.OriginalAttackPoints;
+                    }
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[activePlayer.Id][EnumType.longRange])
+                    {
+                        card.AttackPoints = card.OriginalAttackPoints;
+                    }
+                    foreach (CombatCard card in activePlayer.Board.PlayerCards[opponent.Id][EnumType.longRange])
+                    {
+                        card.AttackPoints = card.OriginalAttackPoints;
+                    }
+                    break;
+                case EnumEffect.moraleBoost:
+                    break;
+                case EnumEffect.spy:
+                    break;
+                case EnumEffect.tightBond:
+                    break;
+                case EnumEffect.buff:
+                    break;
+                case EnumEffect.none:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
